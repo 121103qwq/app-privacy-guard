@@ -1,0 +1,40 @@
+{
+  "scope": "Independent Android 14 emulator. Mock callback and explicit proxy only. No real account, address or direct IP baseline.",
+  "apk_sha256": "dc8c43e728a271135b03a2c89f18046e27bc24d95a701f2a3e03401f9025cc52",
+  "region": {
+    "language": "en-US",
+    "languages": [
+      "en-US",
+      "en"
+    ],
+    "timezone": "America/Los_Angeles",
+    "locale": "en-US",
+    "date_constructor_timezone": 420,
+    "intl_constructor_timezone": "America/Los_Angeles",
+    "january_offset": 480,
+    "july_offset": 420,
+    "worker_blocked": true,
+    "worker_constructor_blocked": true,
+    "shared_worker_blocked": true,
+    "webrtc_blocked": true,
+    "webrtc_constructor_blocked": true,
+    "location_denied": true,
+    "service_worker_blocked": true,
+    "iframe_language": "en-US",
+    "iframe_timezone": "America/Los_Angeles",
+    "java_locale_us": true,
+    "java_timezone_us": true
+  },
+  "network": {
+    "direct_tcp4_denied": true,
+    "direct_tcp6_denied": true,
+    "tunnel_v4_drops": 3,
+    "tunnel_v6_drops": 1,
+    "tunnel_udp_drops": 2,
+    "addresses_are_documentation_ranges": true
+  },
+  "mock_callback_observed": true,
+  "us_proxy_check_observed": true,
+  "real_account_used": false,
+  "direct_ip_baseline_requested": false
+}

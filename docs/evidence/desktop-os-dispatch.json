@@ -1,0 +1,8 @@
+{
+  "os_protocol_callback": true,
+  "state_bound": true,
+  "native_locale_us": true,
+  "native_timezone_pacific": true,
+  "real_account_used": false,
+  "scope": "ShellExecute OS dispatch only; browser permission-dialog completion is not verified"
+}

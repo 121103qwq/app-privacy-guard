@@ -1,0 +1,15 @@
+private/
+runtime/
+dist/
+**/build/
+**/.gradle/
+**/local.properties
+*.jks
+*.keystore
+*.pfx
+*.msix
+*.obj
+*.lib
+*.exp
+__pycache__/
+**/_metadata/

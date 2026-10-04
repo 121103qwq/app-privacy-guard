@@ -1,0 +1,19 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Account-free flow test</title>
+<style>body{font:16px system-ui;margin:16px;color:#10253b}button{padding:12px;margin:4px}pre{white-space:pre-wrap;font-size:13px}</style>
+<h2>App → browser → app</h2><p>Only a local mock code is used. No account, address or token is collected.</p>
+<button id="authorize">Simulate authorization</button><pre id="out"></pre>
+<script>
+const result={language:navigator.language,languages:[...navigator.languages],timezone:Intl.DateTimeFormat().resolvedOptions().timeZone,locale:Intl.DateTimeFormat().resolvedOptions().locale,date_constructor_timezone:(new Date()).constructor.prototype.getTimezoneOffset.call(new Date('2026-07-01T00:00:00Z')),intl_constructor_timezone:Intl.DateTimeFormat.prototype.constructor().resolvedOptions().timeZone,january_offset:new Date('2026-01-01T00:00:00Z').getTimezoneOffset(),july_offset:new Date('2026-07-01T00:00:00Z').getTimezoneOffset()};
+const blocked=f=>{try{f();return false;}catch(e){return e.name==='NotAllowedError';}};
+result.worker_blocked=blocked(()=>new Worker(URL.createObjectURL(new Blob(['postMessage("unexpected")']))));
+result.worker_constructor_blocked=typeof Worker==='undefined'||blocked(()=>new Worker.prototype.constructor('https://example.invalid/worker'));
+result.shared_worker_blocked=typeof SharedWorker==='undefined'||blocked(()=>new SharedWorker('https://example.invalid/worker'));
+result.webrtc_blocked=typeof RTCPeerConnection==='undefined'||blocked(()=>new RTCPeerConnection());
+result.webrtc_constructor_blocked=typeof RTCPeerConnection==='undefined'||blocked(()=>new RTCPeerConnection.prototype.constructor());
+Promise.all([
+ new Promise(resolve=>{if(!navigator.geolocation){result.location_denied=true;return resolve();}navigator.geolocation.getCurrentPosition(()=>{result.location_denied=false;resolve();},()=>{result.location_denied=true;resolve();});}),
+ navigator.serviceWorker?navigator.serviceWorker.register('/sw.js').then(()=>result.service_worker_blocked=false).catch(e=>result.service_worker_blocked=e.name==='NotAllowedError'):Promise.resolve(result.service_worker_blocked=true),
+ new Promise(resolve=>{const iframe=document.createElement('iframe');iframe.srcdoc='<script>parent.postMessage({type:"region-child",language:navigator.language,timezone:Intl.DateTimeFormat().resolvedOptions().timeZone},"*")<\/script>';window.addEventListener('message',function receive(e){if(e.data?.type==='region-child'){result.iframe_language=e.data.language;result.iframe_timezone=e.data.timezone;window.removeEventListener('message',receive);resolve();}});document.body.appendChild(iframe);setTimeout(resolve,1200);})
+]).then(()=>{window.fixtureResult=result;document.querySelector('#out').textContent=JSON.stringify(result,null,2);if(window.Fixture)Fixture.record(JSON.stringify(result));});
+document.querySelector('#authorize').onclick=()=>{const state=new URL(location.href).searchParams.get('state');location.href='appprivacy://callback?state='+encodeURIComponent(state||'')+'&code=mock-only';};
+</script></html>

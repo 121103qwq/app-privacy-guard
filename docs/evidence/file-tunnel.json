@@ -1,0 +1,7 @@
+{
+  "scope": "Two host processes exercising file IPC; not a Windows guest or official Claude runtime test. Only explicit proxy egress was used.",
+  "file_proxy_http_pass": true,
+  "broker_failure_closed": true,
+  "direct_baseline_requested": false,
+  "real_account_used": false
+}

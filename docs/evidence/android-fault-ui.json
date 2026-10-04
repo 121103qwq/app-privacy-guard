@@ -1,0 +1,10 @@
+{
+  "scope": "Android 14 independent emulator. Current signed release build; UI observations through Android test MCP.",
+  "offline_proxy_preflight_refused": true,
+  "offline_proxy_browser_not_created": true,
+  "app_force_stop_restart_browser_closed": true,
+  "settings_vpn_disconnect_restart_browser_closed": true,
+  "settings_disconnect_race_proven_absent": false,
+  "suspend_network_switch_and_physical_device_verified": false,
+  "real_account_used": false
+}

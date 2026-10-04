@@ -1,0 +1,42 @@
+# Replace every example value. Do not commit your completed configuration.
+# Run the proxy core in a separate process, without its own VPN/TUN mode.
+mixed-port: 17992
+bind-address: 127.0.0.1
+allow-lan: false
+mode: rule
+log-level: warning
+ipv6: true
+tun:
+  enable: false
+dns:
+  enable: true
+  enhanced-mode: fake-ip
+  nameserver:
+    - 'https://1.1.1.1/dns-query#US-fixed'
+proxies:
+  - name: US-Hy2
+    type: hysteria2
+    server: 192.0.2.10
+    port: 443
+    password: REPLACE_PRIVATE_PASSWORD
+    sni: proxy.example.invalid
+    skip-cert-verify: false
+  - name: US-Reality
+    type: vless
+    server: 192.0.2.10
+    port: 8443
+    uuid: 00000000-0000-4000-8000-000000000000
+    tls: true
+    udp: true
+    flow: xtls-rprx-vision
+    servername: example.invalid
+    client-fingerprint: chrome
+    reality-opts:
+      public-key: REPLACE_SERVER_PUBLIC_KEY
+      short-id: REPLACE_SHORT_ID
+proxy-groups:
+  - name: US-fixed
+    type: select
+    proxies: [US-Hy2, US-Reality]
+rules:
+  - MATCH,US-fixed

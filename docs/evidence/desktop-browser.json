@@ -1,0 +1,59 @@
+{
+  "scope": "Two empty Edge profiles; local synthetic browser redirect callback. OS custom scheme is tested separately. No account used.",
+  "profiles": [
+    {
+      "language": "en-US",
+      "languages": [
+        "en-US",
+        "en"
+      ],
+      "timezone": "America/Los_Angeles",
+      "locale": "en-US",
+      "date_constructor_timezone": 420,
+      "intl_constructor_timezone": "America/Los_Angeles",
+      "january_offset": 480,
+      "july_offset": 420,
+      "worker_blocked": true,
+      "worker_constructor_blocked": true,
+      "shared_worker_blocked": true,
+      "webrtc_blocked": true,
+      "webrtc_constructor_blocked": true,
+      "location_denied": true,
+      "service_worker_blocked": true,
+      "iframe_language": "en-US",
+      "iframe_timezone": "America/Los_Angeles",
+      "mock_callback_accepted": true,
+      "wrong_state_rejected": true,
+      "passed": true
+    },
+    {
+      "language": "en-US",
+      "languages": [
+        "en-US",
+        "en"
+      ],
+      "timezone": "America/Los_Angeles",
+      "locale": "en-US",
+      "date_constructor_timezone": 420,
+      "intl_constructor_timezone": "America/Los_Angeles",
+      "january_offset": 480,
+      "july_offset": 420,
+      "worker_blocked": true,
+      "worker_constructor_blocked": true,
+      "shared_worker_blocked": true,
+      "webrtc_blocked": true,
+      "webrtc_constructor_blocked": true,
+      "location_denied": true,
+      "service_worker_blocked": true,
+      "iframe_language": "en-US",
+      "iframe_timezone": "America/Los_Angeles",
+      "mock_callback_accepted": true,
+      "wrong_state_rejected": true,
+      "passed": true
+    }
+  ],
+  "callback_count": 2,
+  "wrong_state_rejected_count": 2,
+  "all_accept_language_us": true,
+  "real_account_used": false
+}

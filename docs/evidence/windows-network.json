@@ -1,0 +1,13 @@
+{
+  "scope": "Selected test executable and broker path; IPv6 loopback tests the all-IPv6 deny filter. Public direct address baseline was not requested.",
+  "proxy_tcp_allowed": true,
+  "ipv4_tcp_wfp_denied": true,
+  "ipv6_loopback_wfp_denied": true,
+  "other_loopback_port_wfp_denied": true,
+  "wfp_observed_drops": 5,
+  "udp_observed_drops": 2,
+  "ipv6_observed_drops": 1,
+  "event_option_restored": true,
+  "udp_send_return_is_not_delivery_proof": true,
+  "real_account_used": false
+}
