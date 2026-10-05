@@ -60,8 +60,9 @@ def main():
             for name in zipped.namelist():
                 if not name.endswith('/'):
                     issues.extend(find_issues(archive.name + '/' + name, zipped.read(name), private_literals))
-    for exe in (root / 'dist/desktop').glob('*.exe'):
-        issues.extend(find_issues('desktop/' + exe.name, exe.read_bytes(), private_literals))
+    for binary in (root / 'dist/desktop').rglob('*'):
+        if binary.suffix.lower() in ('.exe', '.dll'):
+            issues.extend(find_issues(str(binary.relative_to(root / 'dist')), binary.read_bytes(), private_literals))
     print(json.dumps({'tracked_files': len(names), 'issues': issues,
                       'archives_inspected': len(archives),
                       'private_patterns_loaded': len(private_literals)}))

@@ -1,0 +1,17 @@
+{
+  "selected_fixture_guarded": true,
+  "exact_startup_filter_created": true,
+  "native_locale_us": true,
+  "native_geo_us": true,
+  "native_timezone_pacific": true,
+  "winter_summer_conversion": true,
+  "selected_registry_reads_us": true,
+  "automatic_startup_native_region_us": true,
+  "unguarded_executable_refused": true,
+  "host_region_settings_unchanged": true,
+  "fixture_filters_removed": true,
+  "fixture_startup_key_removed": true,
+  "real_account_used": false,
+  "official_client_started": false,
+  "scope": "Compiled local launcher and native probe only; no official Claude runtime or account. Host values were compared in memory and not saved."
+}

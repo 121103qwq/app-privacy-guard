@@ -13,3 +13,4 @@ dist/
 *.exp
 __pycache__/
 **/_metadata/
+desktop/local/state/

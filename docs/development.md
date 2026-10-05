@@ -7,6 +7,7 @@
 ```powershell
 node tools/build-assets.mjs
 & desktop/build.ps1
+& desktop/local/build.ps1
 gradle -p android assembleRelease
 ```
 
@@ -34,5 +35,7 @@ Edge 测试使用两个新建的空资料目录。测试服务器只绑定 loopb
 按手机版指南依次检查：保护未就绪时没有 WebView、US 出口预检、普通 HTTPS、mock 授权回调、IPv4/IPv6/DNS/UDP 丢包、断代理、停止和重新启动。应用日志只使用 `PrivacyFixture` 标签，记录地区测试与布尔结果，禁止记录 Cookie、IP、令牌、真实账号或代理密码。
 
 发布前审查所有跟踪文件与归档，只取源码白名单。排除 runtime、私有数据、构建缓存、厂商安装器和签名私钥。Release 上传后重新下载资产，核对字节数与 SHA-256。
+
+本机工具的复测只使用新编译的自有探针。为探针安装按完整路径匹配的启动过滤器，读取地区结果，比较宿主区域设置是否保持不变，再撤销测试规则。公开证据只保存布尔结果。不能为验证启动器而直接启动带真实账号的 Claude。
 
 环境专用的拦截清单必须放在仓库外的私有 JSON 文件中，不能写入公开扫描器。运行 `python tools/scan-public.py --private-pattern-file <private-json>` 时，报告仅显示文件名和问题类型。扫描还会检查转义文本、UTF-16 字符串，以及解压后的 Release 内容。基本扫描不能识别所有私有数据，仍需核对发布白名单。

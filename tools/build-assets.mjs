@@ -11,3 +11,14 @@ for(const dir of ['android/app/src/main/assets','edge']){
 fs.mkdirSync(path.join(root,'via'),{recursive:true});
 fs.writeFileSync(path.join(root,'via/via-us-privacy.user.js'),`// ==UserScript==\n// @name App Privacy region helper\n// @version 0.2.0\n// @match https://*/*\n// @run-at document-start\n// @grant none\n// ==/UserScript==\n// Region helper only. This userscript does not enforce network routing.\n${script}`);
 fs.copyFileSync(path.join(root,'tests/flow.html'),path.join(root,'android/app/src/main/assets/flow.html'));
+const localEdge=path.join(root,'desktop/local/edge');fs.mkdirSync(localEdge,{recursive:true});
+const sites=['https://claude.ai/*','https://*.claude.ai/*','https://claude.com/*','https://*.claude.com/*','https://anthropic.com/*','https://*.anthropic.com/*'];
+const localManifest=JSON.parse(fs.readFileSync(path.join(root,'edge/manifest.json'),'utf8'));
+localManifest.name='App Privacy local Claude region';localManifest.version='0.2.1';
+localManifest.description='Region patch on Claude sites only; other websites keep normal capabilities. Network routing requires the local guard.';
+localManifest.host_permissions=sites;localManifest.content_scripts[0].matches=sites;
+fs.writeFileSync(path.join(localEdge,'manifest.json'),JSON.stringify(localManifest));
+fs.writeFileSync(path.join(localEdge,'region-start.js'),script);
+const language=JSON.parse(fs.readFileSync(path.join(root,'edge/language.json'),'utf8'));
+for(const rule of language)rule.condition.requestDomains=['claude.ai','claude.com','anthropic.com'];
+fs.writeFileSync(path.join(localEdge,'language.json'),JSON.stringify(language));
