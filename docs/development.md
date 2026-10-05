@@ -28,6 +28,17 @@ Edge 测试使用两个新建的空资料目录。测试服务器只绑定 loopb
 
 `tests/callback-fixture.cpp` 和 `tests/os-callback-flow.mjs` 用独立的 `appprivacy-fixture:` 协议测试 Windows 交接。需要构建 fixture，测试时由操作者在空白浏览器中处理打开应用的弹窗。它不注册或修改 `claude:`。本轮弹窗后的交接未验收，不能纳入已通过的浏览器测试结果。
 
+Google 范围变更使用离线检查，不启动浏览器、不联网，也不读取账号资料：
+
+```powershell
+node tools/build-assets.mjs
+node tests/google-auth-scope.mjs
+```
+
+检查读取生成的 manifest、请求头规则和实际地区脚本。两个模拟资料分别创建独立 JavaScript 环境，以 `fr-FR` 和 `Asia/Tokyo` 作为 canary。脚本验证 Claude、Google、同意页和回调首个模拟页面脚本的地区结果，并检查验证码路径、普通站点排除和错误 state。结果保存在 `docs/evidence/desktop-google-scope.json`。
+
+这是扩展配置选择模型与 Node VM 测试。它没有运行 Chrome 的内容脚本或 DNR 引擎，也没有验证实际 Google 登录、弹窗和验证码兼容性。
+
 ## Android 复测
 
 使用独立、空白 Android 模拟器，安装成功后才进行配置。可将模拟器时区设为 Tokyo、启动 locale 设为 fr-FR，作为测试 canary，不能用真实个人环境的地址作基线。

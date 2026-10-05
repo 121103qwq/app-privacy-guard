@@ -1,12 +1,13 @@
 from pathlib import Path
 import subprocess,zipfile,hashlib,json,shutil
-root=Path(__file__).resolve().parents[1];out=root/'dist';version='0.2.1';assets=[]
+root=Path(__file__).resolve().parents[1];out=root/'dist';version='0.2.2';assets=[]
 def package(filename,entries):
  dest=out/filename
  with zipfile.ZipFile(dest,'w',zipfile.ZIP_DEFLATED) as z:
   for source,name in entries:z.write(source,name)
  assets.append(dest)
-common=[(root/'LICENSE','LICENSE'),(root/'docs/desktop-guide.md','docs/desktop-guide.md'),(root/'docs/desktop-local-guide.md','docs/desktop-local-guide.md'),(root/'docs/desktop-strict-guide.md','docs/desktop-strict-guide.md'),(root/'docs/browser-url-diagnostics.md','docs/browser-url-diagnostics.md'),(root/'docs/test-report.md','docs/test-report.md'),(root/'docs/package-audit.md','docs/package-audit.md'),(root/'config/proxy-only.example.yaml','config/proxy-only.example.yaml'),(root/'licenses/minhook-bsd.txt','licenses/minhook-bsd.txt')]
+common=[(root/'LICENSE','LICENSE'),(root/'docs/desktop-guide.md','docs/desktop-guide.md'),(root/'docs/desktop-local-guide.md','docs/desktop-local-guide.md'),(root/'docs/desktop-strict-guide.md','docs/desktop-strict-guide.md'),(root/'docs/mobile-guide.md','docs/mobile-guide.md'),(root/'docs/browser-url-diagnostics.md','docs/browser-url-diagnostics.md'),(root/'docs/test-report.md','docs/test-report.md'),(root/'docs/package-audit.md','docs/package-audit.md'),(root/'config/proxy-only.example.yaml','config/proxy-only.example.yaml'),(root/'licenses/minhook-bsd.txt','licenses/minhook-bsd.txt')]
+common += [(p,'docs/evidence/'+p.name) for p in sorted((root/'docs/evidence').glob('*.json'))]
 local=[(out/'desktop/local'/n,'desktop/local/'+n) for n in ['privacy-launch.exe','locale-shim.dll','network-guard.exe','environment-probe.exe']]
 local += [(p,'desktop/local/'+p.name) for p in sorted((root/'desktop/local').glob('*.ps1')) if p.name!='build.ps1']
 local += [(p,'desktop/local/edge/'+p.name) for p in sorted((root/'desktop/local/edge').iterdir()) if p.is_file()]

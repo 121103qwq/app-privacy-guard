@@ -47,6 +47,12 @@ Android 同时只提供一个 VPN 位置。本 APK 的应用专用 VPN 与另一
 
 模拟测试不使用真实账号，只验证 mock 状态与回调。本应用拒绝把链接交给外部应用；因此它不能替官方 Claude App 完成登录回调。Google 等服务可能拒绝嵌入式 WebView 登录，本轮未用真实账号测试这些兼容性。
 
+## Google 登录页面
+
+Via 脚本的 `https://*/*` 范围包含 `accounts.google.com`。需要在 Via 中保持脚本对 Google 登录页启用，并使 Claude 与 Google 使用同一可靠代理。真实首屏执行时机仍取决于 Via；跳到其他浏览器或官方 App 后，脚本不能继续保护新应用。
+
+专用 APK 会对在内部打开的 Google 页面应用原有地区补丁和网络保护。但 Google 对嵌入式浏览器有 OAuth 限制，参见[官方 OAuth 政策](https://developers.google.com/identity/protocols/oauth2/policies)。不能把页面范围覆盖当作 Google 登录兼容性通过。本项目没有修改浏览器标识来规避这些限制。
+
 ## 保护范围与限制
 
 VPN 仅选择本 APK 的 UID，其余软件不经过这个丢弃通道。上游代理进程也不在该 UID 中。网站的出口取决于上游规则，所以只检查一次国家代码，不能证明代理以后永远保持美国出口。

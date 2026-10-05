@@ -1,0 +1,32 @@
+{
+  "scope": "Offline manifest and DNR selection model plus Node VM JS realms; not Edge runtime or real Google authentication.",
+  "canary": {
+    "language": "fr-FR",
+    "timezone": "Asia/Tokyo"
+  },
+  "profiles": [
+    {
+      "isolated_realms": true,
+      "claude_google_consent_callback": true,
+      "first_script_us": true,
+      "google_child_realm_us": true,
+      "headers_us": true,
+      "mock_state_checked": true
+    },
+    {
+      "isolated_realms": true,
+      "claude_google_consent_callback": true,
+      "first_script_us": true,
+      "google_child_realm_us": true,
+      "headers_us": true,
+      "mock_state_checked": true
+    }
+  ],
+  "challenge_paths_checked": 4,
+  "ordinary_and_spoofed_urls_unchanged": 6,
+  "challenge_opaque_child_origin_fallback_covered": false,
+  "real_account_used": false,
+  "network_requests_made": false,
+  "browser_started": false,
+  "actual_google_login_compatibility_verified": false
+}

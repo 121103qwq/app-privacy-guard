@@ -45,9 +45,9 @@ $tools='C:\AppPrivacy\desktop\local'
 & "$tools\start-edge.ps1" -Profile two
 ```
 
-两个窗口使用 en-US 和固定 HTTP 代理。地区扩展只注入 Claude、Claude.com 和 Anthropic 站点。其他站点保留正常的 Worker、WebRTC 和定位接口；在 Claude 站点，相关接口会被拒绝。这个范围减少对一般浏览的影响，也意味着第三方登录页不一定获得相同时区补丁。
+两个窗口使用 en-US 和固定 HTTP 代理。0.2.2 的地区扩展覆盖 Claude、Claude.com、Anthropic 和 `accounts.google.com`。Google、reCAPTCHA 和 gstatic 的 `/recaptcha/` 页面也在范围内。普通 Google 搜索页和其他站点保留原有网页接口；受保护页面会拒绝 Worker、WebRTC 和定位。
 
-扩展目录为 `desktop/local/edge`。如果当前 Edge 不接受启动参数加载扩展，需在这两个专用资料中按 Edge 的扩展管理流程加载该目录。首次使用须核对扩展确实已加载，不能把生成目录当作已启用。
+扩展目录为 `desktop/local/edge`。如果当前 Edge 不接受启动参数加载扩展，需在这两个专用资料中按 Edge 的扩展管理流程加载该目录。首次使用须核对扩展确实已加载，不能把生成目录当作已启用。已有 0.2.1 扩展需更新到 0.2.2，再关闭旧登录页并重新打开。
 
 启动客户端：
 
@@ -62,7 +62,20 @@ $tools='C:\AppPrivacy\desktop\local'
 
 ## 应用与浏览器交接
 
-先从受控入口启动 Desktop，再由该应用发起浏览器授权。登录浏览器应是上述专用 Edge 资料，回调仍由官方 `claude:` 协议接收。不要把授权链接交给未配置的其他浏览器。第三方认证页面、浏览器权限弹窗和客户端辅助进程，仍是非严格方案的覆盖缺口。
+先从受控入口启动 Desktop，再由该应用发起浏览器授权。登录浏览器应是上述专用 Edge 资料，回调仍由官方 `claude:` 协议接收。不要把授权链接交给未配置的其他浏览器。启动器不会自动把系统默认浏览器切换到专用资料；若应用打开了其他资料，首屏已经可能读取该资料的环境。这仍是非严格方案的缺口。
+
+选择 Google 登录时，浏览器会跨站跳转。Google 官方 OAuth 授权端点为 `https://accounts.google.com/o/oauth2/v2/auth`，参见 [Google OAuth 文档](https://developers.google.com/identity/protocols/oauth2/web-server)。使用顺序如下：
+
+1. 确认专用 Edge 已加载 0.2.2 扩展，再在这个资料内打开 Claude 授权页。
+2. 选择 Google 登录。Google 登录、账号选择和同意页面仍需留在这个资料内；同资料的新标签页或弹窗也使用该扩展。
+3. Google 页面从文档首屏应用美国语言和 Pacific 时区补丁，请求头使用 `en-US,en;q=0.9`。网页出口继续通过固定美国代理，不因域名变成 Google 而改用其他分组。
+4. Google 返回 Claude 后，Claude 页面继续使用补丁，再由官方协议完成应用回调。
+
+扩展对验证码页面使用单独的路径规则，不对普通 Google 搜索页应用地区补丁。`www.recaptcha.net` 是 Google 文档列出的替代来源，参见 [reCAPTCHA FAQ](https://developers.google.com/recaptcha/docs/faq)。
+
+目前只完成离线的跨站范围和脚本检查。两个模拟资料的 Claude → Google → 同意页 → Claude 回调，在各自的 JavaScript 环境中返回美国预设值。常见验证码 URL 和 `about:blank` 子页面也通过范围检查。这不是实际 Edge 加载或真实 Google 登录验收。
+
+验证码路径规则没有宽泛的来源回退，其 `data:` 或 `blob:` 子页面仍有覆盖缺口。Google 若依赖被禁用的 Worker 或其他能力，登录也可能失败。其他认证域名、已有 Worker、浏览器权限弹窗和客户端辅助进程，仍未获得完整证明。
 
 本项目的测试只使用 mock state 和 code。不会登录、读取或操作真实 Claude 账号。工具的 Windows URL 确认故障也尚未修复，详见 [URL 诊断记录](browser-url-diagnostics.md)。
 
