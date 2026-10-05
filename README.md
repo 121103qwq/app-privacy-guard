@@ -11,6 +11,7 @@
 - **新电脑：[简易部署工具使用指南](docs/quick-deploy.md)**。下载 `app-privacy-quick-deploy-0.3.0.zip`，完整解压后打开 `AppPrivacyGuard.exe`。适用于 Windows 10/11 x64，部署时需要管理员权限和固定美国 HTTP 代理。
 - [桌面版使用指南](docs/desktop-guide.md)
 - [本机非严格方案](docs/desktop-local-guide.md)
+- [Anthropic 邮件与链接的隐私处理](docs/email-privacy.md)
 - [Windows URL 诊断记录](docs/browser-url-diagnostics.md)
 - [手机版使用指南](docs/mobile-guide.md)
 - [MSIX 与 Setup 权限审计](docs/package-audit.md)

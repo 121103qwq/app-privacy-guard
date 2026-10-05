@@ -79,6 +79,8 @@ $tools='C:\AppPrivacy\desktop\local'
 
 本项目的测试只使用 mock state 和 code。不会登录、读取或操作真实 Claude 账号。工具的 Windows URL 确认故障也尚未修复，详见 [URL 诊断记录](browser-url-diagnostics.md)。
 
+Anthropic 邮件中的远程图片和验证链接不属于 WFP 或地区补丁的处理范围。收件、转发、图片代理和链接点击的建议，参见 [Anthropic 邮件与链接的隐私处理](email-privacy.md)。
+
 ## 更新、故障与撤销
 
 客户端更新后，程序路径可能改变。首次启动新版本前，重新运行 `setup.ps1` 并核对结果。自动更新后的新服务和辅助路径可能先于刷新规则运行，不能声称版本更新期间也有完整保护。
