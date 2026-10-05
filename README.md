@@ -1,6 +1,6 @@
 # App Privacy Guard
 
-面向指定应用的出口保护、地区信息测试和无账号回调测试工具。当前版本为 **0.2.2 预发布版**。
+面向指定应用的出口保护、地区信息测试和无账号回调测试工具。当前版本为 **0.3.0 预发布版**。
 
 **官方 Claude 桌面版建议使用验签后的 MSIX。日常默认采用本机非严格方案，无需虚拟机，Windows 原有显示与时区保持正常。** MSIX 本身不是权限沙箱。手机端提供专用浏览器 APK；Via 脚本仅用于地区接口补丁。
 
@@ -8,6 +8,7 @@
 
 ## 下载与使用
 
+- **新电脑：[简易部署工具使用指南](docs/quick-deploy.md)**。下载 `app-privacy-quick-deploy-0.3.0.zip`，完整解压后打开 `AppPrivacyGuard.exe`。适用于 Windows 10/11 x64，部署时需要管理员权限和固定美国 HTTP 代理。
 - [桌面版使用指南](docs/desktop-guide.md)
 - [本机非严格方案](docs/desktop-local-guide.md)
 - [Windows URL 诊断记录](docs/browser-url-diagnostics.md)
@@ -16,7 +17,7 @@
 - [测试结果与边界](docs/test-report.md)
 - [构建与复测](docs/development.md)
 
-Release 提供签名 APK、本机启动器与地区修正模块、桌面文件代理工具、Edge 扩展、Via 脚本、源码归档和 SHA-256 校验文件。0.2.2 补齐本机 Edge 的 Google 登录域名和常见 reCAPTCHA 页面范围。Android APK 保持 0.2.0 的已验收字节。官方 Claude 安装包、代理凭据和 APK 签名私钥均不分发。
+Release 提供简易部署界面、签名 APK、本机启动器与地区修正模块、桌面文件代理工具、Edge 扩展、Via 脚本、源码归档和 SHA-256 校验文件。0.3.0 新增环境检查、签名校验、系统启动保护、独立自动回滚、快捷方式和按所有权撤销。HTTP 代理端口可配置。Android APK 保持 0.2.0 的已验收字节。官方 Claude 安装包、代理凭据和签名私钥均不分发。
 
 ## 保护的结构
 

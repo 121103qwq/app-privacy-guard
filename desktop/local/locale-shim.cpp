@@ -16,8 +16,9 @@ static volatile LONG initialized = 0;
 static int mandatoryFailed = 0;
 using WinHttpOpenFn = HINTERNET(WINAPI*)(LPCWSTR,DWORD,LPCWSTR,LPCWSTR,DWORD);
 static WinHttpOpenFn originalHttpOpen;
+static std::wstring localProxy=L"127.0.0.1:17992";
 static HINTERNET WINAPI ProxyHttpOpen(LPCWSTR agent,DWORD,LPCWSTR,LPCWSTR,DWORD flags){
-    return originalHttpOpen(agent,WINHTTP_ACCESS_TYPE_NAMED_PROXY,L"127.0.0.1:17992",L"localhost;127.*;[::1]",flags);
+    return originalHttpOpen(agent,WINHTTP_ACCESS_TYPE_NAMED_PROXY,localProxy.c_str(),L"localhost;127.*;[::1]",flags);
 }
 using NtQueryKeyFn = NTSTATUS(NTAPI*)(HANDLE, int, PVOID, ULONG, PULONG);
 static NtQueryKeyFn ntQueryKey = nullptr;
@@ -210,6 +211,15 @@ static void hook(const wchar_t* module, const char* api, LPVOID replacement, LPV
 }
 extern "C" __declspec(dllexport) DWORD WINAPI PrivacyInit(LPVOID) {
     if (InterlockedCompareExchange(&initialized, 1, 0)) return 0;
+    wchar_t proxy[100]{};
+    if(GetEnvironmentVariableW(L"HTTP_PROXY",proxy,100)){
+        const std::wstring value(proxy),prefix=L"http://127.0.0.1:";
+        if(value.rfind(prefix,0)!=0)return 104;
+        const auto number=value.substr(prefix.size());
+        if(number.empty()||number.size()>5||number.find_first_not_of(L"0123456789")!=std::wstring::npos)return 104;
+        const int port=_wtoi(number.c_str());if(port<1||port>65535)return 104;
+        localProxy=L"127.0.0.1:"+std::to_wstring(port);
+    }
     bool found = false;
     for (DWORD index = 0; index < 1000; ++index) {
         DYNAMIC_TIME_ZONE_INFORMATION item{};

@@ -11,6 +11,18 @@ node tools/build-assets.mjs
 gradle -p android assembleRelease
 ```
 
+简易部署包另需执行以下步骤。`build-deploy.py` 使用 Windows 自带 C# 编译器生成入口，并为 Windows PowerShell 5.1 写入带 BOM 的 UTF-8 脚本。
+
+```powershell
+python tools/build-deploy.py
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File dist/quick-deploy/deployment/panel.ps1 -SelfTest
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tests/build-fixtures.ps1
+python tests/deployment-test.py
+```
+
+部署测试使用自有探针和独立目录。它会临时添加仅属于探针的 WFP 与启动钩子，并实测一次 SYSTEM 倒计时回滚。没有启动真实账号流程。
+GUI 的 `SelfTest` 只构建控件，不等于真人点击或目标电脑的界面验收。
+
 将 Android SDK 路径填写到私有的 `android/local.properties`。签名用自己的密钥和 `apksigner`，不把密钥或密码提交到 Git。项目不分发构建 JDK，当前主机曾因 Java 的 Unix domain pipe 出错使用私有 TCP pipe 修复；这不是 APK 运行依赖。
 
 ## 桌面复测

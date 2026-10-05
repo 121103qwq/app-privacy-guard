@@ -81,14 +81,19 @@ int wmain(int argc, wchar_t** argv) {
     if(argc>2&&!wcscmp(argv[1],L"--ifeo")){intercepted=true;first=2;}
     if (GetFileAttributesW(path.c_str()) == INVALID_FILE_ATTRIBUTES) { std::cerr << "Locale module missing; program not started.\n"; return 3; }
     if(!networkReady(folder,argv[first])){std::cerr<<"Target has no verified IPv4/IPv6 guard; program not started. Run setup.ps1 as administrator.\n";return 6;}
+    const std::wstring ini=folder+L"\\proxy.ini";
+    const UINT port=GetPrivateProfileIntW(L"Proxy",L"Port",17992,ini.c_str());
+    if(port<1||port>65535){std::cerr<<"Invalid local HTTP proxy port; program not started.\n";return 8;}
+    const std::wstring proxy=L"http://127.0.0.1:"+std::to_wstring(port);
     SetEnvironmentVariableW(L"TZ", L"America/Los_Angeles");
     SetEnvironmentVariableW(L"LANG", L"en_US.UTF-8"); SetEnvironmentVariableW(L"LC_ALL", L"en_US.UTF-8");
-    SetEnvironmentVariableW(L"HTTP_PROXY", L"http://127.0.0.1:17992"); SetEnvironmentVariableW(L"HTTPS_PROXY", L"http://127.0.0.1:17992");
-    SetEnvironmentVariableW(L"ALL_PROXY", L"http://127.0.0.1:17992"); SetEnvironmentVariableW(L"NO_PROXY", L"localhost,127.0.0.1,::1");
+    SetEnvironmentVariableW(L"HTTP_PROXY", proxy.c_str()); SetEnvironmentVariableW(L"HTTPS_PROXY", proxy.c_str());
+    SetEnvironmentVariableW(L"ALL_PROXY", proxy.c_str()); SetEnvironmentVariableW(L"NO_PROXY", L"localhost,127.0.0.1,::1");
     SetEnvironmentVariableW(L"NODE_USE_ENV_PROXY", L"1");
+    SetEnvironmentVariableW(L"DISABLE_AUTOUPDATER", L"1");
     std::wstring command;
     for (int index = first; index < argc; ++index) { if (index != first) command += L" "; command += quote(argv[index]); }
-    if(std::wstring(argv[first]).find(L"WindowsApps")!=std::wstring::npos)command+=L" --lang=en-US --proxy-server=http://127.0.0.1:17992";
+    if(std::wstring(argv[first]).find(L"WindowsApps")!=std::wstring::npos)command+=L" --lang=en-US --proxy-server="+proxy;
     STARTUPINFOW startup{}; startup.cb = sizeof(startup); PROCESS_INFORMATION process{};
     std::vector<wchar_t> mutableCommand(command.begin(), command.end()); mutableCommand.push_back(0);
     if (!CreateProcessW(argv[first], mutableCommand.data(), nullptr, nullptr, TRUE, CREATE_SUSPENDED|(intercepted?DEBUG_ONLY_THIS_PROCESS:0), nullptr, nullptr, &startup, &process)) {
