@@ -2,6 +2,21 @@
 
 Anthropic 的验证、登录和通知邮件可能包含远程图片或带参数的链接。邮件隐私与应用出口保护是两层问题。固定美国代理不会自动清理邮件追踪器，邮箱的图片加载方式也不会约束浏览器打开链接后的出口。
 
+## Anthropic 官方说明的收集范围
+
+Anthropic 当前隐私政策自 2026 年 9 月 10 日起生效。政策说明，用户使用服务时，Anthropic 会自动获得以下技术信息：
+
+- 设备与连接信息：设备类型、操作系统、浏览器、来源页面、移动网络、运营商或 ISP、时区、IP 地址、由 IP 推导的位置、各类标识符和设备位置。
+- 使用信息：访问时间、服务内的浏览与搜索、点击的链接、浏览的页面，以及交互的第三方应用、服务和内容。
+- 日志与故障排查信息：日志文件、错误时间、使用中的功能、应用状态，以及错误发生时提供的通信或内容。
+- Cookies 与类似技术：用于识别用户、维持服务、个性化体验、分析使用情况、安全防护和营销。
+
+这份政策解释了本项目保护措施的边界。固定代理可以改变服务看到的公网出口，地区补丁可以修改部分网页和进程接口，但它们不会阻止服务产生访问日志、使用记录、账号 Cookie 或设备标识。WFP 防直连也不负责清理应用主动提交的日志和错误信息。
+
+邮件追踪保护只作用于收件和阅读阶段。用户打开验证链接后，页面请求进入 Anthropic 服务，隐私政策列出的技术信息仍可能被收集。专用 Edge、固定出口和地区修正用于减少真实网络与区域信息暴露，并保持环境一致；它们不等于停止数据收集或匿名使用服务。
+
+Anthropic 另行说明，会使用 IP 地址和其他信号推断国家或地区，用于条款合规、安全和反滥用。此类必要处理不能在隐私设置中关闭。因此，稳定出口的作用是减少前后环境矛盾，不能保证账号不会触发风险判断。
+
 ## 推荐收件方式
 
 推荐使用 Proton Mail 地址接收 Anthropic 邮件，并在 Proton Mail Web 或官方应用中直接阅读。保持“邮件追踪保护”开启。Proton 官方说明指出，该功能会移除已知追踪像素，通过通用代理加载远程图片，并在 Web 端清理已知的链接追踪参数。
@@ -39,11 +54,15 @@ Anthropic 的验证、登录和通知邮件可能包含远程图片或带参数�
 - 客户端更新可能改变程序路径。更新后应重新发现程序并安装保护规则，然后再开始登录。
 - 回调测试应使用 mock state 和 mock code。测试日志不记录 Cookie、令牌、完整回调 URL、邮箱地址或代理凭据。
 - 邮箱保护、浏览器保护和应用保护需要分别核对。任意一层通过都不能替代其他层的验证。
+- 服务端仍会看到代理出口，并可结合账号 Cookie、使用记录、设备信息和错误日志判断环境。不能把“未泄露真实 IP”写成“未产生可关联数据”。
 
 已验证内容不包含真实 Anthropic 邮件追踪行为、真实 Google 登录兼容性或真实 Claude 账号风控结果。
 
 ## 官方资料
 
+- [Anthropic：Privacy Policy](https://www.anthropic.com/legal/privacy)
+- [Anthropic：Does Claude use my location?](https://privacy.claude.com/en/articles/11186740-does-claude-use-my-location)
+- [Anthropic：What Cookies Does Anthropic Use?](https://privacy.claude.com/en/articles/10023541-what-cookies-does-anthropic-use)
 - [Proton Mail：Enhanced email tracker protection](https://proton.me/support/email-tracker-protection)
 - [Gmail：Turn images on or off](https://support.google.com/mail/answer/145919?hl=en)
 - [Google OAuth 2.0 for Web Server Applications](https://developers.google.com/identity/protocols/oauth2/web-server)
